@@ -66,4 +66,5 @@ notebook/
 *.ipynb_dev
 
 #backup files
+*.bak
 backup*/
