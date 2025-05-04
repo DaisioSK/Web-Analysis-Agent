@@ -1,0 +1,67 @@
+# Byte-compiled / optimized / DLL files
+__pycache__/
+*.py[cod]
+*.pyo
+*.pyd
+*.so
+
+# Virtual environment folders
+.venv/
+venv/
+env/
+.ai_agent_env/ 
+
+# SQLite file
+*.db
+
+# Jupyter Notebook checkpoints
+.ipynb_checkpoints/
+
+# Logs and debug files
+*.log
+*.out
+*.err
+
+# OS-specific files
+.DS_Store
+Thumbs.db
+
+# IDE-specific files
+.vscode/
+.idea/
+*.swp
+*.swo
+
+# PyCharm-specific files
+*.iml
+*.iws
+.idea/
+.idea/workspace.xml
+
+# Test outputs
+*.coverage
+coverage.xml
+*.egg-info/
+
+# pip cache
+*.egg
+*.egg-info
+dist/
+build/
+
+# Environment variables or secrets (e.g., dotenv files)
+.env
+.env.*
+
+# Input files
+screenshots/
+downloads/
+
+# Output files
+*.csv
+*.xlsx
+
+# Dev notebook
+notebook/
+*.ipynb_dev
+

@@ -1,0 +1,13 @@
+langchain 
+langchain_community 
+langchain_openai 
+langchain_core 
+transformers 
+huggingface_hub
+fastapi
+uvicorn
+requests
+beautifulsoup4
+langdetect
+gradio_client
+playwright
