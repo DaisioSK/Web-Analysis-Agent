@@ -1,4 +1,3 @@
-# mcp_server/tools/detect_language.py
 from fastapi import APIRouter
 from pydantic import BaseModel
 from bs4 import BeautifulSoup
@@ -9,7 +8,7 @@ router = APIRouter()
 
 MCP_TOOL_META = {
     "name": "detect_language",
-    "description": "自动识别网页的主语言（基于页面正文）"
+    "description": "detect the main language of the web page text."
 }
 
 class URLInput(BaseModel):

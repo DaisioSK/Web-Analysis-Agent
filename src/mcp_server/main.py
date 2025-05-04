@@ -10,7 +10,7 @@ from mcp_server.tools import dom_parser, screenshot_ocr, tool_registry, detect_l
 
 app = FastAPI(title="MCP Server", description="A local agent capability service platform")
 
-# 注册工具模块的路由
+# register the routers for the tool modules
 app.include_router(dom_parser.router, prefix="/tool")
 app.include_router(detect_language.router, prefix="/tool")
 app.include_router(extract_image.router, prefix="/tool")

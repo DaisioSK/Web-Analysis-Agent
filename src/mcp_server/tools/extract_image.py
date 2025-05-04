@@ -1,4 +1,3 @@
-# mcp_server/tools/extract_images.py
 from fastapi import APIRouter
 from pydantic import BaseModel
 from bs4 import BeautifulSoup
@@ -8,7 +7,7 @@ router = APIRouter()
 
 MCP_TOOL_META = {
     "name": "extract_images",
-    "description": "提取网页中的所有图片链接及其alt文本"
+    "description": "extract all image links and their alt text from a webpage"
 }
 
 class URLInput(BaseModel):

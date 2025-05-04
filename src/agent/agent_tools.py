@@ -1,4 +1,3 @@
-# from langchain_core.tools import tool
 from langchain.tools import tool
 import requests
 
@@ -37,44 +36,3 @@ def get_mcp_tools():
         )
     return tools
 
-
-# def get_mcp_tools():
-#     resp = requests.get(TOOL_LIST_API)
-#     tools = []
-
-#     for tool_meta in resp.json().get("tools", []):
-#         name = tool_meta["name"]
-#         description = tool_meta["description"]
-
-#         def dynamic_tool(url: str, name=name):
-#             response = requests.post(TOOL_CALL_MAP[name], json={"url": url})
-#             return response.json()
-
-#         tools.append(
-#             Tool(
-#                 name=name,
-#                 description=description,
-#                 func=dynamic_tool,
-#             )
-#         )
-
-#     return tools
-
-
-# def get_mcp_tools():
-#     resp = requests.get(TOOL_LIST_API)
-#     tools = []
-
-#     for tool_meta in resp.json().get("tools", []):
-#         name = tool_meta["name"]
-#         description = tool_meta["description"]
-
-#         @tool(name=name, description=description)
-#         def dynamic_tool(url: str, name=name):
-#             """Generic wrapper to call MCP endpoint."""
-#             response = requests.post(TOOL_CALL_MAP[name], json={"url": url})
-#             return response.json()
-
-#         tools.append(dynamic_tool)
-
-#     return tools

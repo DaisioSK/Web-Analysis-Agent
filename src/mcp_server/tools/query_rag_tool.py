@@ -1,4 +1,3 @@
-# mcp_server/tools/query_rag_tool.py
 from fastapi import APIRouter
 from pydantic import BaseModel
 from mcp_server.rag.retriever import search_documents
@@ -9,7 +8,7 @@ router = APIRouter()
 
 MCP_TOOL_META = {
     "name": "query_rag",
-    "description": "RAG: 使用知识库回答问题，并返回引用片段"
+    "description": "RAG: use knowledge base to answer questions and return cited snippets"
 }
 
 class QueryInput(BaseModel):

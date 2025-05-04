@@ -6,7 +6,7 @@ router = APIRouter()
 
 MCP_TOOL_META = {
     "name": "analyze_screenshot",
-    "description": "对网页截图执行图像理解（如 OCR、布局分析、视觉组件识别）"
+    "description": "perform image understanding on webpage screenshots (e.g., OCR, layout analysis, visual component recognition)"
 }
 
 class URLInput(BaseModel):
@@ -15,7 +15,7 @@ class URLInput(BaseModel):
 @router.post("/analyze_screenshot")
 def analyze_screenshot_tool(input: URLInput):
     """
-    对网页截图执行图像理解（如 OCR、布局分析、视觉组件识别）
+    perform image understanding on webpage screenshots (e.g., OCR, layout analysis, visual component recognition)
     """
     result = parse_ui_components_from_url(input.url)
     return result

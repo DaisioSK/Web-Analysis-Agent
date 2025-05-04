@@ -7,7 +7,6 @@ from langchain_core.prompts import ChatPromptTemplate, MessagesPlaceholder
 from langchain.memory import ConversationSummaryBufferMemory
 from langchain.callbacks.streaming_stdout import StreamingStdOutCallbackHandler
 from langchain_openai import ChatOpenAI
-# from agent.agent_tools import get_mcp_tools
 from agent_tools import get_mcp_tools
 from pydantic import BaseModel
 from typing import List
@@ -16,7 +15,7 @@ from langchain.output_parsers import PydanticOutputParser
 
 class Component(BaseModel):
     name: str
-    bbox: List[float]  # 比如 [x1, y1, x2, y2]
+    bbox: List[float]
     interactivity: bool
     sno: int
     tracking_method: str

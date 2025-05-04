@@ -65,3 +65,5 @@ downloads/
 notebook/
 *.ipynb_dev
 
+#backup files
+backup*/

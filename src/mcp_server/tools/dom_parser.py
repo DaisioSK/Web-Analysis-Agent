@@ -16,7 +16,7 @@ class URLInput(BaseModel):
 @router.post("/parse_dom")
 def parse_dom_tool(input: URLInput):
     """
-    提取网页中可追踪组件，如按钮、输入框、表单等
+    extract components from the DOM of a webpage, such as buttons, input fields, forms, etc.
     """
     result = parse_components_from_dom_sync(input.url)
     return {"components": result}

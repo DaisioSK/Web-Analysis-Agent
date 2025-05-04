@@ -16,28 +16,23 @@ def capture_full_page_screenshot(url: str, output_path: str = "images/screenshot
         browser = p.chromium.launch(headless=True)
         page = browser.new_page()
 
-        # 打开指定网页
         if not url.startswith("http"):
             url = "https://" + url
         page.goto(url)
 
-        # 等待页面加载完成（可根据需要自定义更精细的等待策略）
         page.wait_for_load_state("networkidle")
 
-        # 设置视窗为全屏（你也可以指定固定大小）
         page.set_viewport_size({
             "width": page.evaluate("() => document.body.scrollWidth"),
             "height": page.evaluate("() => document.body.scrollHeight")
         })
 
-        # 截图整个页面
         page.screenshot(path=output_path, full_page=True)
         browser.close()
 
     print(f"Screenshot saved to {output_path}")
 
 def clean_tag(tag: Tag) -> Tag:
-    """只保留说明性属性"""
     KEEP_ATTRIBUTES = ['aria-label', 'placeholder', 'alt', 'title', 'name', 'value']
     attrs = {}
     for k in tag.attrs:
@@ -48,7 +43,7 @@ def clean_tag(tag: Tag) -> Tag:
 
 def deduplicate_components(components: list[dict]) -> list[dict]:
     """
-    基于 tag + txt + attr 结构去重
+    deduplicate based on tag + txt + attr
     """
     seen = set()
     deduped = []
@@ -58,7 +53,7 @@ def deduplicate_components(components: list[dict]) -> list[dict]:
         txt = comp.get("txt", "").strip()
         attr = comp.get("attr", {})
 
-        # 转成 hashable 的 key，attr 用 tuple 表示
+        # use tuple(sorted(attr.items()))
         attr_tuple = tuple(sorted(attr.items()))
         key = (tag, txt, attr_tuple)
 
@@ -71,8 +66,8 @@ def deduplicate_components(components: list[dict]) -> list[dict]:
 
 def compress_components(components: list[dict]) -> list[dict]:
     """
-    简化压缩版：把 tag 对应的 txt + attr 所有值去重后拼接，用空格连接。
-    输出形式：{tag: "value1 value2 value3"}
+    simplify compressed version: deduplicate all values of txt + attr for each tag, and join them with a space.
+    oputput format: {tag: "value1 value2 value3"}
     """
     compressed = []
 
@@ -108,7 +103,6 @@ async def extract_visible_dom_cleaned(url: str) -> list:
             page = await browser.new_page()
             await page.goto(url, wait_until="networkidle")
 
-            # 获取所有可见组件的 outerHTML
             get_visible_dom_script = """
             () => {
                 const visibleTags = ['BUTTON', 'INPUT', 'A', 'IMG', 'TEXTAREA', 'SELECT', 'LABEL', 'FORM', 'DIV'];
@@ -133,7 +127,6 @@ async def extract_visible_dom_cleaned(url: str) -> list:
             visible_elements = await page.evaluate(get_visible_dom_script)
             await browser.close()
             
-        # 结构化数据输出
         structured_components = []
         INTERACTIVE_TAGS = ['button', 'input', 'select', 'form', 'a']
 
@@ -142,7 +135,7 @@ async def extract_visible_dom_cleaned(url: str) -> list:
             el = soup.find()
 
             if el and el.name in INTERACTIVE_TAGS:
-                clean_tag(el)  # 清理属性
+                clean_tag(el) 
                 txt = el.get_text(strip=True)
                 attr = el.attrs
                 if txt or attr:
@@ -159,7 +152,7 @@ async def extract_visible_dom_cleaned(url: str) -> list:
 
 
 async def parse_components_from_dom(url: str):
-    print(">>> URL 输入类型：", type(url), url)
+    print(">>> URL input type: ", type(url), url)
     raw = await extract_visible_dom_cleaned(url)
     deduped = deduplicate_components(raw)
     compressed = compress_components(deduped)
@@ -191,7 +184,7 @@ def parse_ui_components_from_url(url):
                 api_name="/process"
             )
         except Exception as e:
-            print("❗️OmniParser predict failed:", e)
+            print("OmniParser predict failed:", e)
             raise
 
         # print(result)
@@ -200,7 +193,6 @@ def parse_ui_components_from_url(url):
         image = cv2.imread(image_path)
         height, width = image.shape[:2]
         
-        # 构建组件信息列表
         components = []
         for line in comp_lists.strip().splitlines():
             try:
@@ -216,9 +208,9 @@ def parse_ui_components_from_url(url):
                         "label": label
                     })
             except Exception as e:
-                print(f"❗️ Parse error on line: {line[:80]} → {e}")
+                print(f"Parse error on line: {line[:80]} → {e}")
 
-        # 可视化 bbox
+        # visualize bbox
         last_color = None
         for comp in components:
             x1 = int(comp["bbox"][0] * width)
@@ -236,7 +228,6 @@ def parse_ui_components_from_url(url):
             cv2.putText(image, comp["label"], (x1, y1 - 10),
                         cv2.FONT_HERSHEY_SIMPLEX, 0.7, color, 2)
 
-        # 保存与展示
         output_image_path = "images/output_annotated.png"
         cv2.imwrite(output_image_path, image)
         
